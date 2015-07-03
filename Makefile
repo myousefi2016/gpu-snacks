@@ -1,9 +1,7 @@
-# All projects -> the solution.
 SOLUTION ?= $(shell find src -name Makefile)
 
 .PHONY: all
 all: build
-	@echo "Solution build finished!"
 
 .PHONY: build
 build: $(addsuffix .ph_build,$(SOLUTION))
@@ -13,6 +11,7 @@ clean: $(addsuffix .ph_clean,$(SOLUTION))
 
 .PHONY: clobber
 clobber: $(addsuffix .ph_clobber,$(SOLUTION))
+	rm -fr bin lib
 
 %.ph_build:
 	+@$(MAKE) -C $(dir $*) $(MAKECMDGOALS)

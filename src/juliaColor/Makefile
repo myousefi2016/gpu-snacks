@@ -1,5 +1,5 @@
 # project name and global directory layout
-PROJECT       := juliaGL-1
+PROJECT       := libjcolor.so
 PROJECTDIR    := .
 
 ROOT          := $(PROJECTDIR)/../..
@@ -13,23 +13,23 @@ OBJDIR        := $(PROJECTDIR)/obj
 OUTPUTDIR      = $(BIN)/$(CONFIGURATION)
 
 # project files
-CFILES        := juliaFractal.c
+CFILES        := juliaColor.c
 CCFILES       :=
-DEPFILES      := $(INC)/timer.h $(INC)/juliaColor.h
+DEPFILES      := $(INC)/juliaColor.h
 
 OBJFILES      := $(patsubst %.c,$(OBJDIR)/%.o,$(notdir $(CFILES))) \
                  $(patsubst %.cpp,$(OBJDIR)/%.o,$(notdir $(CCFILES)))
 TARGETFILE     = $(OUTPUTDIR)/$(PROJECT)
 
 # compiler
-CC            := gcc
+CC            := gcc -fPIC
 CFLAGS        := -DUNIX -std=c99
 CXX           := g++
 CXXFLAGS      := -DUNIX
 
 # linker
 LINK          := g++ -fPIC
-LDFLAGS       := -DUNIX -Wl,-rpath -Wl,\$$ORIGIN
+LDFLAGS       := -DUNIX -shared
 
 # debug
 ifeq ($(dbg),1)
@@ -42,7 +42,7 @@ endif
 
 # libraries
 INCLUDES      := -I$(PROJECTDIR) -I$(INC)
-LIBRARIES     := -L$(LIB) -L$(OUTPUTDIR) -ljcolor -lm -lGL -lGLU -lglut
+LIBRARIES     := -L$(LIB) -L$(OUTPUTDIR) -lm
 
 # openmp
 ifeq ($(omp),1)
@@ -99,14 +99,8 @@ $(OBJDIR)/%.o: %.c $(DEPFILES)
 $(OBJDIR)/%.o: %.cpp $(DEPFILES)
 	$(QUIET)$(CXX) $(CXXFLAGS) -o $@ -c $<
 
-#$(TARGETFILE): $(OBJFILES) | $(OUTPUTDIR)
-#	$(QUIET)$(LINK) -o $@ $+ $(LDFLAGS)
-
-$(TARGETFILE): $(OBJFILES) | $(OUTPUTDIR)/libjcolor.so
+$(TARGETFILE): $(OBJFILES) | $(OUTPUTDIR)
 	$(QUIET)$(LINK) -o $@ $+ $(LDFLAGS)
-
-$(OUTPUTDIR)/libjcolor.so: | $(OUTPUTDIR)
-	+@$(MAKE) -C ../juliaColor $(MAKECMDGOALS)
 
 $(OUTPUTDIR):
 	mkdir -p $(BIN)/release

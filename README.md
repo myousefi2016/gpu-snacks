@@ -2,7 +2,11 @@
 
 my casual codes on cuda acceleration and gl rendering.
 
-# GLUT setup #
+-------------------------------------------------------------------------------
+
+# env setup #
+
+## OpenGL/GLUT ##
 
 OpenGL comes with X11; to verify, check the following files:
 
@@ -44,4 +48,26 @@ line, remember to place them last, say:
 ```
     gcc gl-demo.c -o gl-demo -lGL -lGLU -lglut
 ```
+
+## cuda ##
+
+-------------------------------------------------------------------------------
+
+# notes on codes #
+
+## julia GL ##
+
+it is kinda compute-intensive to generate a [Julia set][1], and its 'chaotic'
+behavior would give you funny images; instead of images, i render those numbers
+as simple no-brain graphics.
+
+all GL renderings depend on `juliaColor` to generate color values, which is
+compiled into a shared library `libjcolor.so`. so it should be prior built,
+and make sure it can be located at runtime (set up `LD_LIBRARY_PATH`,
+`ldconfig`, or whatever blabla).
+
+note that i have set up the order-only prerequisite (`|` in GNU make) and added
+`$ORIGIN` as `RPATH` to all the binaries.
+
+[1]: https://en.wikipedia.org/wiki/Julia_set    "Julia set"
 

@@ -10,32 +10,30 @@
 
 #define PI  3.141592653589793
 
-#define WIDTH   512
-#define HEIGHT  512
-
+#define WIDTH         512
+#define HEIGHT        512
 #define JULIA_WIDTH   256
 #define JULIA_HEIGHT  256
 
 /* eye */
-GLfloat eye_z = 512.0;
+GLfloat eye_z = 512.;
 
 /* translation */
-GLfloat translate_z = 0.0;
+GLfloat translate_z = 0.;
 
 /* rotation */
-GLfloat rotate_x = 0.0, rotate_y = 0.0;
+GLfloat rotate_x = 0., rotate_y = 0.;
 
-/* mouse Controls */
+/* mouse controls */
 int mouse_old_x, mouse_old_y;
 int mouse_buttons = 0;
 
-/* julia Variables */
-float theta = 0.0;
-
-float xmin = -2.0,
-      ymin = -2.0,
-      xmax =  2.0,
-      ymax =  2.0;
+/* julia variables */
+float theta = 0.;
+float xmin = -2.,
+      ymin = -2.,
+      xmax =  2.,
+      ymax =  2.;
 
 void init(void)
 {
@@ -46,19 +44,16 @@ void init(void)
 
 void display(void)
 {
-	int i, j;
-	int m, n;
+	int i, j, m, n;
 	int color;
 	float deltax = (xmax-xmin)/JULIA_WIDTH,
 	      deltay = (ymax-ymin)/JULIA_HEIGHT;
 
 	static double t0 /*= currentSeconds()*/;
 	       double t1, elapsedTime;
-	static float fps;
-	static unsigned N = 0;
+	static unsigned N;
+	float fps;
 	char cfps[256];
-
-	t0 = currentSeconds();
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -74,7 +69,8 @@ void display(void)
 	/* draw the x-z plane */
 	glColor3f(1.0, 1.0, 1.0);
 	glBegin(GL_LINES);
-	for (i = 0, n = JULIA_WIDTH/2; i <= JULIA_WIDTH; i += 32) {
+	n = JULIA_WIDTH/2;
+	for (i = 0; i <= JULIA_WIDTH; i += 32) {
 		glVertex3i(i-n, 0, 0);
 		glVertex3i(i-n, 0, -512);
 	}
@@ -87,21 +83,25 @@ void display(void)
 
 	/* draw Julia */
 	glBegin(GL_POINTS);
-	n = JULIA_WIDTH/2, m = JULIA_HEIGHT/2;
-	for (i = 0; i < JULIA_WIDTH; ++i) {
-		for (j = 0; j < JULIA_HEIGHT; ++j) {
+	n = JULIA_WIDTH/2; m = JULIA_HEIGHT/2;
+	for (i = 0; i < JULIA_WIDTH; i++) {
+		for (j = 0; j < JULIA_HEIGHT; j++) {
 			color = genColorJulia(xmin + (float)(i) * deltax,
 			                      ymin + (float)(j) * deltay,
 			                      theta);
 			glColor3f((float)( color&0xff    )     /128,
-			          (float)((color&0xff00  )>>8) /128,
+			          (float)((color&0xff00  )>> 8)/128,
 			          (float)((color&0xff0000)>>16)/128);
 			glVertex3i(i-n, j-m, 0);
 
-			if (j >= 0 && j < 64) glVertex3i(i-n, j-m, -128);
-			else if (j >= 64 && j < 128) glVertex3i(i-n, j-m, -256);
-			else if (j >= 128 && j < 192) glVertex3i(i-n, j-m, -384);
-			else glVertex3i(i-n, j-m, -512);
+			if (j >= 0 && j < 64)
+				glVertex3i(i-n, j-m, -128);
+			else if (j >= 64 && j < 128)
+				glVertex3i(i-n, j-m, -256);
+			else if (j >= 128 && j < 192)
+				glVertex3i(i-n, j-m, -384);
+			else
+				glVertex3i(i-n, j-m, -512);
 		}
 	}
 	glEnd();
@@ -114,7 +114,7 @@ void display(void)
 		fps = (float) N / elapsedTime;
 		N = 0;
 		t0 = t1;
-		sprintf(cfps, "Julia Fractal (%d x %d): %3.1f fps", WIDTH, HEIGHT, fps);
+		sprintf(cfps, "Julia Fractal GL (%d x %d): %3.1f fps", WIDTH, HEIGHT, fps);
 		printf("%s\n", cfps);
 		glutSetWindowTitle(cfps);
 	}
@@ -144,10 +144,11 @@ void mouse (int button, int state, int x, int y)
 	glutPostRedisplay();
 }
 
-void keyboard (unsigned char key, int x, int y)
+void keyboard(unsigned char key, int x, int y)
 {
 	switch (key) {
-	case (27): exit(0);
+	case (27):
+		exit(0);
 	case ('w'):
 		if (eye_z >= 256.0) eye_z -= 1.0;
 		break;
@@ -157,7 +158,7 @@ void keyboard (unsigned char key, int x, int y)
 	}
 }
 
-void motion (int x, int y)
+void motion(int x, int y)
 {
 	float dx, dy;
 
@@ -178,8 +179,8 @@ void motion (int x, int y)
 void spinDisplay(void)
 {
 	theta += PI / 180;
-	if (theta > 2*PI)
-		theta -= 2*PI;
+	if (theta > 2 * PI)
+		theta -= 2 * PI;
 }
 
 int main(int argc, char *argv[])
