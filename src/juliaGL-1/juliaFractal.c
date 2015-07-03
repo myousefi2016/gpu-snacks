@@ -1,10 +1,8 @@
-#include <stdlib.h>
 #include <stdio.h>
-
 #include <GL/glut.h>
 
-#include "timer.h"
 #include "juliaColor.h"
+#include "timer.h"
 
 #define FPS_TIME_WINDOW	 1
 
@@ -14,6 +12,11 @@
 #define HEIGHT        512
 #define JULIA_WIDTH   256
 #define JULIA_HEIGHT  256
+
+#define XMIN  -2.
+#define YMIN  -2.
+#define XMAX   2.
+#define YMAX   2.
 
 /* eye */
 GLfloat eye_z = 512.;
@@ -28,12 +31,8 @@ GLfloat rotate_x = 0., rotate_y = 0.;
 int mouse_old_x, mouse_old_y;
 int mouse_buttons = 0;
 
-/* julia variables */
+/* julia angle */
 float theta = 0.;
-float xmin = -2.,
-      ymin = -2.,
-      xmax =  2.,
-      ymax =  2.;
 
 void init(void)
 {
@@ -46,8 +45,8 @@ void display(void)
 {
 	int i, j, m, n;
 	int color;
-	float deltax = (xmax-xmin)/JULIA_WIDTH,
-	      deltay = (ymax-ymin)/JULIA_HEIGHT;
+	float deltax = (XMAX-XMIN)/JULIA_WIDTH,
+	      deltay = (YMAX-YMIN)/JULIA_HEIGHT;
 
 	static double t0 /*= currentSeconds()*/;
 	       double t1, elapsedTime;
@@ -86,8 +85,8 @@ void display(void)
 	n = JULIA_WIDTH/2; m = JULIA_HEIGHT/2;
 	for (i = 0; i < JULIA_WIDTH; i++) {
 		for (j = 0; j < JULIA_HEIGHT; j++) {
-			color = genColorJulia(xmin + (float)(i) * deltax,
-			                      ymin + (float)(j) * deltay,
+			color = genColorJulia(XMIN + (float)(i) * deltax,
+			                      YMIN + (float)(j) * deltay,
 			                      theta);
 			glColor3f((float)( color&0xff    )     /128,
 			          (float)((color&0xff00  )>> 8)/128,
@@ -186,9 +185,9 @@ void spinDisplay(void)
 int main(int argc, char *argv[])
 {
 	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
+	glutInitDisplayMode(GLUT_RGBA|GLUT_DOUBLE|GLUT_DEPTH);
+	glutInitWindowPosition(0, 0);
 	glutInitWindowSize(WIDTH, HEIGHT);
-	glutInitWindowPosition(128, 128);
 	glutCreateWindow("Julia Fractal GL");
 
 	init();
@@ -198,7 +197,6 @@ int main(int argc, char *argv[])
 	glutKeyboardFunc(keyboard);
 	glutMouseFunc(mouse);
 	glutMotionFunc(motion);
-
 	glutIdleFunc(spinDisplay);
 
 	glutMainLoop ();
