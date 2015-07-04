@@ -1,6 +1,6 @@
-# gpu-snacks #
+# GPU-Snacks #
 
-my casual codes on cuda acceleration and gl rendering.
+my casual codes on CUDA acceleration and OpenGL rendering.
 
 # env setup #
 
@@ -47,13 +47,13 @@ line, remember to place them last, say:
     gcc gl-demo.c -o gl-demo -lGL -lGLU -lglut
 ```
 
-## cuda ##
+## CUDA ##
 
 to be edited ...
 
 # notes on codes #
 
-## julia gl ##
+## juliaGL ##
 
 it is kinda compute-intensive to generate a [Julia set][1], and its 'chaotic'
 behavior would give you funny images; instead of images, i render those numbers
@@ -61,7 +61,7 @@ as simple no-brain graphics.
 
 ![julia-gl-1](http://7xk0df.com1.z0.glb.clouddn.com/juliaGL-1-no-brain-graphics.png)
 
-gl renderings depend on `juliaColor` to generate color values, which is
+GL renderings depend on `juliaColor` to generate color values, which is
 compiled into a shared library `libjcolor.so`. so it should be prior built,
 and make sure it can be located at runtime (set up `LD_LIBRARY_PATH`,
 `ldconfig`, or whatever blabla). note that i did have set up an order-only

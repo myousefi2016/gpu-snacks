@@ -1,89 +1,63 @@
-# project name and global directory layout
-PROJECT       := libjcolor.so
-PROJECTDIR    := .
+# global directory layout
+ROOT       := ../..
+BIN        := $(ROOT)/bin
+INC        := $(ROOT)/inc
+LIB        := $(ROOT)/lib
+SRC        := $(ROOT)/src
 
-ROOT          := $(PROJECTDIR)/../..
-BIN           := $(ROOT)/bin
-INC           := $(ROOT)/inc
-LIB           := $(ROOT)/lib
-SRC           := $(ROOT)/src
+# project directories and files
+PROJECT    := libjcolor
 
-# project directories
-OBJDIR        := $(PROJECTDIR)/obj
-OUTPUTDIR      = $(BIN)/$(CONFIGURATION)
+PROJECTDIR := .
+OBJDIR     := obj
+OUTPUTDIR   = $(BIN)/$(CONFIG)
 
-# project files
-CFILES        := juliaColor.c
-CCFILES       :=
-DEPFILES      := $(INC)/juliaColor.h
+CFILES     := juliaColor.c
+CCFILES    :=
+DEPFILES   := $(INC)/juliaColor.h
+OBJFILES   := $(patsubst %.c,$(OBJDIR)/%.o,$(notdir $(CFILES))) \
+              $(patsubst %.cpp,$(OBJDIR)/%.o,$(notdir $(CCFILES)))
+TARGETFILE  = $(OUTPUTDIR)/$(PROJECT).so
 
-OBJFILES      := $(patsubst %.c,$(OBJDIR)/%.o,$(notdir $(CFILES))) \
-                 $(patsubst %.cpp,$(OBJDIR)/%.o,$(notdir $(CCFILES)))
-TARGETFILE     = $(OUTPUTDIR)/$(PROJECT)
+# compiler setup
+CC         := gcc -fPIC
+CFLAGS      = -DUNIX -std=c99 $(ARCH) $(DEBUG) $(INCLUDES)
+CXX        := g++ -fPIC
+CXXFLAGS    = -DUNIX $(ARCH) $(DEBUG) $(INCLUDES)
 
-# compiler
-CC            := gcc -fPIC
-CFLAGS        := -DUNIX -std=c99
-CXX           := g++
-CXXFLAGS      := -DUNIX
+LINK       := g++ -fPIC
+LDFLAGS     = -DUNIX -shared
+#LDFLAGS     = -DUNIX -shared $(LIBRARIES)
 
-# linker
-LINK          := g++ -fPIC
-LDFLAGS       := -DUNIX -shared
+AMD64 = $(shell uname -m | grep 64)
+ifeq "$(strip $(AMD64))" ""
+    ARCH   := -m32
+else
+    ARCH   := -m64
+endif
 
-# debug
 ifeq ($(dbg),1)
-    DEBUG          := -g -D_DEBUG
-    CONFIGURATION  := debug
+    DEBUG  := -g -D_DEBUG
+    CONFIG := debug
 else
-    DEBUG          := -O2 -fno-strict-aliasing
-    CONFIGURATION  := release
+    DEBUG  := -O2 -fno-strict-aliasing
+    CONFIG := release
 endif
 
-# libraries
-INCLUDES      := -I$(PROJECTDIR) -I$(INC)
-LIBRARIES     := -L$(LIB) -L$(OUTPUTDIR) -lm
+INCLUDES   := -I$(PROJECTDIR) -I$(INC)
+LIBRARIES   = -L$(LIB) -L$(OUTPUTDIR) -lm
 
-# openmp
 ifeq ($(omp),1)
-	CFLAGS   += -fopenmp
-	CXXFLAGS += -fopenmp
-	LINK     += -fopenmp
+    CFLAGS += -fopenmp
+  CXXFLAGS += -fopenmp
+      LINK += -fopenmp
 endif
 
-# warnings
-CXXWARN := \
-#    -W -Wall \
-#    -Wswitch \
-#    -Wformat \
-#    -Wchar-subscripts \
-#    -Wparentheses \
-#    -Wmultichar \
-#    -Wtrigraphs \
-#    -Wpointer-arith \
-#    -Wcast-align \
-#    -Wreturn-type \
-#    -Wno-unused-function \
-#    $(SPACE)
-CWARN   := \
-#    $(CXXWARN_FLAGS) \
-#    -Wimplicit \
-#    -Wstrict-prototypes \
-#    -Wmissing-prototypes \
-#    -Wmissing-declarations \
-#    -Wnested-externs \
-#    -Wmain \
-
-# final compiler options
-CFLAGS   += $(CWARN) $(ARCH) $(DEBUG) $(INCLUDES)
-CXXFLAGS += $(CXXWARN) $(ARCH) $(DEBUG) $(INCLUDES)
-LDFLAGS  += $(LIBRARIES)
-
-# verbose
+# misc.
 ifeq ($(quiet), 1)
-	QUIET := @
+    QUIET  := @
 else
-	QUIET :=
+    QUIET  :=
 endif
 
 # build rules
@@ -100,7 +74,7 @@ $(OBJDIR)/%.o: %.cpp $(DEPFILES)
 	$(QUIET)$(CXX) $(CXXFLAGS) -o $@ -c $<
 
 $(TARGETFILE): $(OBJFILES) | $(OUTPUTDIR)
-	$(QUIET)$(LINK) -o $@ $+ $(LDFLAGS)
+	$(QUIET)$(LINK) $(LDFLAGS) -o $@ $+ $(LIBRARIES)
 
 $(OUTPUTDIR):
 	mkdir -p $(BIN)/release
