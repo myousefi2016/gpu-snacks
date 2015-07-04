@@ -1,8 +1,8 @@
-# GPU-Snacks #
+# INTRO #
 
 my casual codes on CUDA acceleration and OpenGL rendering.
 
-# env setup #
+# ENV SETUP #
 
 ## OpenGL/GLUT ##
 
@@ -51,25 +51,27 @@ line, remember to place them last, say:
 
 to be edited ...
 
-# notes on codes #
+# NOTEs on CODEs #
 
-## juliaGL ##
+## JuliaGL ##
 
 it is kinda compute-intensive to generate a [Julia set][1], and its 'chaotic'
 behavior would give you funny images; instead of images, i render those numbers
 as simple no-brain graphics.
 
+GL renderings depend on juliaColor to generate color values, which is compiled
+into a shared library `libjcolor.so`. so it should be prior built, and make
+sure it can be located at runtime (set up `LD_LIBRARY_PATH`,`ldconfig`, or
+whatever blabla). note that i did have set up an order-only prerequisite (the
+`|` in GNU make) and added `$ORIGIN` as `RPATH` to all the binaries.
+
+juliaGL-1 divides the set into four parts, and puts them in the 3D space
+instead of on the same 2D plane.
+
 ![julia-gl-1](http://7xk0df.com1.z0.glb.clouddn.com/juliaGL-1-no-brain-graphics.png)
 
-GL renderings depend on `juliaColor` to generate color values, which is
-compiled into a shared library `libjcolor.so`. so it should be prior built,
-and make sure it can be located at runtime (set up `LD_LIBRARY_PATH`,
-`ldconfig`, or whatever blabla). note that i did have set up an order-only
-prerequisite (the `|` in GNU make) and added `$ORIGIN` as `RPATH` to all the
-binaries.
-
 juliaGL-2 takes advantage of OpenMP to burn all your CPU cores, it gives you a
-direct sense of parallel multi-core acceleration.
+sense of parallel multi-core acceleration.
 
 ![julia-gl-2-omp](http://7xk0df.com1.z0.glb.clouddn.com/juliaGL-2-burn-cpu.png)
 

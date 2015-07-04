@@ -10,7 +10,7 @@ int genRGB(int r, int g, int b)
 
 int genColor(float color, float dif)
 {
-	static float k1 = 0.5, k2 = 1.9;
+	static float const k1 = 0.5, k2 = 1.9;
 	color = abs(color);
 
 	if (color <  255.f * k1) {
@@ -26,8 +26,8 @@ int genColor(float color, float dif)
 
 int genColorJulia(float x, float y, float theta)
 {
-	static int M = 1000, K = 255 * 3;
-	static float r = 0.7745452294733989 /*sqrt(0.65175 * 0.65175 + 0.41850 * 0.41850)*/;
+	static int const M = 1000, K = 255 * 3;
+	static float const r = 0.7745452294733989 /*sqrt(0.65175 * 0.65175 + 0.41850 * 0.41850)*/;
 	float p = r * cos(theta), q = r * sin(theta);
 
 	float newx, newy, dif;
