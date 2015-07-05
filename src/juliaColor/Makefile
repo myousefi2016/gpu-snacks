@@ -20,14 +20,13 @@ OBJFILES   := $(patsubst %.c,$(OBJDIR)/%.o,$(notdir $(CFILES))) \
 TARGETFILE  = $(OUTPUTDIR)/$(PROJECT).so
 
 # compiler setup
-CC         := gcc -fPIC
-CFLAGS      = -DUNIX -std=c99 $(ARCH) $(DEBUG) $(INCLUDES)
-CXX        := g++ -fPIC
-CXXFLAGS    = -DUNIX $(ARCH) $(DEBUG) $(INCLUDES)
+CC         := gcc
+CFLAGS      = -fPIC -std=c99 $(ARCH) $(DEBUG) $(INCLUDES)
+CXX        := g++
+CXXFLAGS    = -fPIC $(ARCH) $(DEBUG) $(INCLUDES)
 
-LINK       := g++ -fPIC
-LDFLAGS     = -DUNIX -shared
-#LDFLAGS     = -DUNIX -shared $(LIBRARIES)
+LINK       := g++
+LDFLAGS    := -fPIC -shared
 
 AMD64 = $(shell uname -m | grep 64)
 ifeq "$(strip $(AMD64))" ""
