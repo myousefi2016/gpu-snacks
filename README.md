@@ -68,12 +68,16 @@ whatever blabla). note that i did have set up an order-only prerequisite (the
 juliaGL-1 divides the set into four parts, and puts them in the 3D space
 instead of on the same 2D plane.
 
-![julia-gl-1](http://7xk0df.com1.z0.glb.clouddn.com/juliaGL-1-no-brain-graphics.png)
+![juliaGL-1](http://7xk0df.com1.z0.glb.clouddn.com/juliaGL-1-no-brain-graphics.png)
 
 juliaGL-2 takes advantage of OpenMP to burn all your CPU cores, it gives you a
 sense of parallel multi-core acceleration.
 
-![julia-gl-2-omp](http://7xk0df.com1.z0.glb.clouddn.com/juliaGL-2-burn-cpu.png)
+![juliaGL-2-omp](http://7xk0df.com1.z0.glb.clouddn.com/juliaGL-2-burn-cpu.png)
+
+juliaGL-3 renders two viewports, one for perspective, the other for ortho.
+
+![juliaGL-3-viewports](http://7xk0df.com1.z0.glb.clouddn.com/juliaGL-3-viewports.png)
 
 [1]: https://en.wikipedia.org/wiki/Julia_set    "Julia set"
 
