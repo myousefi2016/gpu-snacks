@@ -94,5 +94,18 @@ whatever blabla). note that i did have set up an order-only prerequisite (the
 
 ![juliaGL-4-orchestrated](http://7xk0df.com1.z0.glb.clouddn.com/juliaGL-4-orchestrated.png)
 
+* juliaGL-5 calculates all the Julia colors, puts then in a 3D array, and is
+  able to render them from different perspectives.
+
+  control:
+
+  - select rendering mode: `left click`, `middle click`, `right click`, and `s`.
+
+  - zoom-in/-out: `w`/`x`.
+
+  - rotate/spin: `q`/`e`, `a`/`d`, `z`/`c`.
+
+![juliaGL-5-vbo](http://7xk0df.com1.z0.glb.clouddn.com/juliaGL-5-vbo.png)
+
 [1]: https://en.wikipedia.org/wiki/Julia_set    "Julia set"
 
