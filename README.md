@@ -1,4 +1,3 @@
-# INTRO #
 
 my casual codes on CUDA acceleration and OpenGL rendering.
 
@@ -83,16 +82,16 @@ whatever blabla). note that i did have set up an order-only prerequisite (the
 * `juliaGL-3` renders two viewports, one for perspective, the other for ortho,
   and it spins automatically.
 
-  control: same as JuliaGL-2.
+  control: same as `juliaGL-2`.
 
 ![juliaGL-3-viewports](http://7xk0df.com1.z0.glb.clouddn.com/juliaGL-3-viewports.png)
 
 * `juliaGL-4` orchestrates all the motions, such as zoom-in/-out, rotate, spin,
   translate, and play them automatically.
 
-  control: same as JuliaGL-2/-3.
+  control: same as `juliaGL-2`/`-3`.
 
-![juliaGL-4-orchestrated](http://7xk0df.com1.z0.glb.clouddn.com/juliaGL-4-orchestrated.png)
+![juliaGL-4-orchestrated](http://7xk0df.com1.z0.glb.clouddn.com/juliaGL-4-orchestrated-2.png)
 
 * `juliaGL-5` calculates all the Julia colors, puts them in a 3D array, and is
   able to render them from different perspectives.
