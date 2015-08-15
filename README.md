@@ -1,3 +1,4 @@
+# GPU Snacks #
 
 my casual codes on CUDA acceleration and OpenGL rendering.
 
@@ -50,7 +51,7 @@ line, remember to place them last, say:
 
 to be edited ...
 
-# NOTEs on CODEs #
+# Notes on Codes #
 
 ## JuliaGL ##
 
