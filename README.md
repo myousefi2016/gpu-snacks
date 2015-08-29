@@ -2,7 +2,7 @@
 
 my casual codes on CUDA acceleration and OpenGL rendering.
 
-# ENV SETUP #
+# Environment Setup #
 
 ## OpenGL/GLUT ##
 
@@ -55,14 +55,14 @@ to be edited ...
 
 ## JuliaGL ##
 
-it is kinda compute-intensive to generate a [Julia set][1], and its 'chaotic'
+it is kinda compute-intensive to generate a [Julia set][1], and its "chaotic"
 behavior would give you funny images; instead of images, i render those numbers
 as simple no-brain graphics.
 
-GL renderings depend on `juliaColor` to generate color values, which is compiled
-into a shared library `libjcolor.so`. so it should be prior built, and make
-sure it can be located at runtime (set up `LD_LIBRARY_PATH`,`ldconfig`, or
-whatever blabla). note that i did have set up an order-only prerequisite (the
+all renderings depend on `juliaColor()` to generate color values, which is
+compiled into a shared library `libjcolor.so` (or `dll`). so it should be prior
+built, and make sure it can be located at runtime (set up `LD_LIBRARY_PATH`,
+`ldconfig`, etc.). note that i did have set up an order-only prerequisite (the
 `|` in GNU make) and added `$ORIGIN` as `RPATH` to all the binaries.
 
 * `juliaGL-1` divides the set into four parts, and puts them in the 3D space
